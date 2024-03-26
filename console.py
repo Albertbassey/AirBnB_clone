@@ -16,7 +16,7 @@ from models.state import State
 from models.place import Place
 from models.review import Review
 
-class HBNBCommand(cmd.Cmd):
+ class HBNBCommand(cmd.Cmd):
     """
     Entry point of the command interpreter.
     """
@@ -46,13 +46,13 @@ class HBNBCommand(cmd.Cmd):
         """
         Create a new instance of a class
         """
-        #Check if a class name is supplied as the argument.
+        # Check if a class name is supplied as the argument.
         if len(args) == 0:
             self.err_handler(1)
         else:
             args = args.split()
             if args[0] in self.allowed_classes:
-                #Create a new instance of the class
+                # Create a new instance of the class
                 new_instance = eval(args[0])(args[1:])
                 print(new_instance.id)
                 new_instance.save()
@@ -72,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
             args = args.split()
             if args[0] in self.allowed_classes:
                 models.storage.reload()
-                #Create an identifier based on user input.
+                # Create an identifier based on user input.
                 identifier = args[0] + "." + args[1]
                 if identifier in list(models.storage.all().keys()):
                     print(models.storage.all()[identifier])
@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
                 self.err_handler(2)
 
 
-    def do_destroy(self, args):
+  def do_destroy(self, args):
         """
         Deletes an instance based on the class name and id
         """
@@ -107,13 +107,13 @@ class HBNBCommand(cmd.Cmd):
                 self.err_handler(2)
 
 
-    def do_all(self, args):
+  def do_all(self, args):
         """
         Prints all the  string representation of instance instances
         based or not on the class name.
         """
         str_list = []
-        #If length is zero, print all instances.
+        # If length is zero, print all instances.
         if len(args) == 0:
             all_dict = models.storage.all()
             for id in all_dict.keys():
@@ -134,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
                 self.err_handler(2)
 
 
-    def do_update(self, args):
+  def do_update(self, args):
         """
         Updates an instance based on the class name and id
         by adding or updating attribute
@@ -159,7 +159,7 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         attr = args[2]
                         value = args[3]
-                        setattr(models.storage.all()[identifier],attr, value)
+                        setattr(models.storage.all()[identifier], attr, value)
                         models.storage.all()[identifier].save()
                 else:
                     self.err_handler(4)
@@ -170,7 +170,7 @@ class HBNBCommand(cmd.Cmd):
 
 
 
-    def err_handler(self, error_num):
+  def err_handler(self, error_num):
         """Handles errors in the progrm"""
         if error_num == 1:
             print("** class name missing **")
@@ -184,6 +184,6 @@ class HBNBCommand(cmd.Cmd):
             print("** attribute name missing **")
         elif error_num == 6:
             print("** value missing **")
-if __name__ == "__main__":
+  if __name__ == "__main__":
     signal(SIGINT, HBNBCommand.handler)
     HBNBCommand().cmdloop()
